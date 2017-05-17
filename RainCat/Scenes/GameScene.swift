@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKSceneDelegate {
 
   private var lastUpdateTime : TimeInterval = 0
   private var currentRainDropSpawnTime : TimeInterval = 0
@@ -18,12 +18,20 @@ class GameScene: SKScene {
   override func sceneDidLoad() {
     self.lastUpdateTime = 0
     backgroundNode.setup(size: size)
+    var worldFrame = frame
+    worldFrame.origin.x -= 100
+    worldFrame.origin.y -= 100
+    worldFrame.size.height += 200
+    worldFrame.size.width += 200
+    
+    self.physicsBody = SKPhysicsBody(edgeLoopFrom: worldFrame)
+    self.physicsBody?.categoryBitMask = WorldCategory
     addChild(backgroundNode)
   }
 
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-spawnRaindrop()
+
   }
 
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -31,11 +39,20 @@ spawnRaindrop()
   }
 
   override func update(_ currentTime: TimeInterval) {
+    spawnRaindrop()
     // Called before each frame is rendered
 
     // Initialize _lastUpdateTime if it has not already been
     if (self.lastUpdateTime == 0) {
       self.lastUpdateTime = currentTime
+        
+        // Update the spawn timer
+        currentRainDropSpawnTime += 0.5
+        
+        if currentRainDropSpawnTime > rainDropSpawnRate {
+            currentRainDropSpawnTime = 0
+            spawnRaindrop()
+        }
     }
 
     // Calculate time since last update
@@ -50,7 +67,14 @@ spawnRaindrop()
     private func spawnRaindrop() {
         let raindrop = SKSpriteNode(texture: raindropTexture)
         raindrop.physicsBody = SKPhysicsBody(texture: raindropTexture, size: raindrop.size)
-        raindrop.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        let xPosition =
+            CGFloat(arc4random()).truncatingRemainder(dividingBy: size.width)
+        let yPosition = size.height + raindrop.size.height
+        
+        raindrop.position = CGPoint(x: xPosition, y: yPosition)
+        
+        raindrop.physicsBody?.categoryBitMask = RainDropCategory
+        raindrop.physicsBody?.contactTestBitMask = FloorCategory | WorldCategory
         
         addChild(raindrop)
     }

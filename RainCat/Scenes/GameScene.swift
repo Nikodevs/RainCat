@@ -1,9 +1,8 @@
 //
-//  GameScene.swift
+//  BackgroundNodes.swift
 //  RainCat
 //
-//  Created by Marc Vandehey on 8/29/16.
-//  Copyright © 2016 Thirteen23. All rights reserved.
+//  Copyright © 2017 Thirteen23. All rights reserved.
 //
 
 import SpriteKit
@@ -13,14 +12,18 @@ class GameScene: SKScene {
   private var lastUpdateTime : TimeInterval = 0
   private var currentRainDropSpawnTime : TimeInterval = 0
   private var rainDropSpawnRate : TimeInterval = 0.5
-
+  let raindropTexture = SKTexture(imageNamed: "rain_drop")
+  private let backgroundNode = BackgroundNode()
+    
   override func sceneDidLoad() {
     self.lastUpdateTime = 0
+    backgroundNode.setup(size: size)
+    addChild(backgroundNode)
   }
 
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
+spawnRaindrop()
   }
 
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -44,4 +47,11 @@ class GameScene: SKScene {
 
     self.lastUpdateTime = currentTime
   }
+    private func spawnRaindrop() {
+        let raindrop = SKSpriteNode(texture: raindropTexture)
+        raindrop.physicsBody = SKPhysicsBody(texture: raindropTexture, size: raindrop.size)
+        raindrop.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        
+        addChild(raindrop)
+    }
 }

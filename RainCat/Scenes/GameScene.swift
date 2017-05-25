@@ -2,6 +2,7 @@
 //  BackgroundNodes.swift
 //  RainCat
 //
+//  Created by Marc Vandehey on 8/29/16.
 //  Copyright © 2017 Thirteen23. All rights reserved.
 //
 
@@ -36,7 +37,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     addChild(umbrellaNode)
   }
 
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchPoint = touches.first?.location(in: self)
         
@@ -52,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             umbrellaNode.setDestination(destination: point)
         }
     }
-
+    
   override func update(_ currentTime: TimeInterval) {
     spawnRaindrop()
     let dt = currentTime - self.lastUpdateTime
@@ -61,27 +61,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Initialize _lastUpdateTime if it has not already been
     if (self.lastUpdateTime == 0) {
       self.lastUpdateTime = currentTime
-        
+    }
         // Update the spawn timer
         currentRainDropSpawnTime += dt
         
         if currentRainDropSpawnTime > rainDropSpawnRate {
             currentRainDropSpawnTime = 0
             spawnRaindrop()
-            
-            umbrellaNode.update(deltaTime: dt)
         }
-    }
+        umbrellaNode.update(deltaTime: dt)
+    
 
     // Calculate time since last update
     
 
     // Update the Spawn Timer
     currentRainDropSpawnTime += dt
-
+    
 
     self.lastUpdateTime = currentTime
-  }
+    }
+
     private func spawnRaindrop() {
         let raindrop = SKSpriteNode(texture: raindropTexture)
         raindrop.physicsBody = SKPhysicsBody(texture: raindropTexture, size: raindrop.size)

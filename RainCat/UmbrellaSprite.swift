@@ -48,7 +48,7 @@ public class UmbrellaSprite : SKSpriteNode {
             position.x += directionX * easing
             position.y += directionY * easing
         } else {
-            position = destination  //if errors later on, add a ";" to end of this line.
+            position = destination;
         }
     }
 }

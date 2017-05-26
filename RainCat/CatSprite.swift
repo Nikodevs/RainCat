@@ -16,6 +16,9 @@ public class CatSprite : SKSpriteNode {
         catSprite.zPosition = 5
         catSprite.physicsBody = SKPhysicsBody(circleOfRadius: catSprite.size.width / 2)
         
+        catSprite.physicsBody?.categoryBitMask = CatCategory
+        catSprite.physicsBody?.contactTestBitMask = RainDropCategory | WorldCategory
+        
         return catSprite
     }
     

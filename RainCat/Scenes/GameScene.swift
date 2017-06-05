@@ -12,7 +12,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private var lastUpdateTime : TimeInterval = 0
     private var currentRainDropSpawnTime : TimeInterval = 0
-    private var rainDropSpawnRate : TimeInterval = 0.5
+    private var rainDropSpawnRate : TimeInterval = 6
     let raindropTexture = SKTexture(imageNamed: "rain_drop")
     private let umbrellaNode = UmbrellaSprite.newInstance()
     private var catNode : CatSprite!
@@ -62,7 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let dt = currentTime - self.lastUpdateTime
     // Called before each frame is rendered
 
-    // Initialize _lastUpdateTime if it has not already been
+    // Initialize _lastUpdateTime if it has not already been initialized
     if (self.lastUpdateTime == 0) {
       self.lastUpdateTime = currentTime
     }
